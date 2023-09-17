@@ -1,0 +1,24 @@
+Team 1 : 
+4.240.86.27             : Dev Server
+4.240.88.120            : Selenium Server
+4.240.86.49             : QA Server
+
+Team 2 : 
+4.240.86.49             : Dev Server
+4.240.84.204            : Selenium Server
+4.240.88.10             : QA Server
+
+Team 3 : 
+4.240.88.10             : Dev Server
+4.240.88.31             : Selenium Server
+4.240.88.126            : QA Server
+
+Team 4 : 
+4.240.88.126            : Dev Server
+4.240.88.132            : Selenium Server
+4.240.88.191            : QA Server
+
+Team 5 : 
+4.240.88.191            : Dev Server
+4.240.88.197            : Selenium Server
+4.240.86.27             : QA Server
