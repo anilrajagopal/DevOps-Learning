@@ -1,0 +1,8 @@
+Hints:
+
+ssh username@Selenium_Server_IP << EOF
+  git clone <repo>
+  cd Your_Repo_Directory
+  chmod +x your_selenium_script.sh
+  ./your_selenium_script.sh
+EOF

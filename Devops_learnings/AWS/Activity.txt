@@ -1,0 +1,14 @@
+Lambda
+
+1. create a Lambda with Python 3.* 
+2. copy paste the Python code in lambda IDE
+3. Go to lambda configuration -> Environment variable -> add the key value
+    eg: 
+    AMI : ami-074dc0a6f6c764218
+    INSTANCE_TYPE : t2.micro
+    KEY_NAME : VPC
+    SUBNET_ID : subnet-0996eeffa79a6c6d1
+
+4. Go to lambda configuration -> Permissions -> select lambda role- > click on lambda policy, update json policy (copy the shared json policy)
+5. test lambda with some event name.
+6. Verify the instance id in lambda logs

@@ -1,0 +1,99 @@
+(run this command) rm /tmp/.X99-lock and then these.
+
+sudo apt remove --purge xvfb
+sudo apt autoremove
+
+----------------------------------------------------------
+
+Notes about XVFB Uninstall
+
+If xvfb was installed in your ubuntu and available in your PATH, the type command would provide a result else, it would not.
+
+The alternate option to confirm if it is installed or not, use the following to check the package manager
+
+dpkg -l | grep xvfb
+
+and if this does not returns, then install as usual.
+
+Hope this clarifies !!
+
+-----------------------------------------------------------------
+Commands to Uninstall
+
+"remove" --> it deletes the binary and other associated files of the package, but it typically leaves behind configuration files
+
+"purge"  --> it deletes everything related to the package, including its configuration files.
+
+1) Java
+
+sudo apt-get purge openjdk-*
+
+2) Maven
+
+sudo apt-get remove maven
+
+3) XVFB
+
+sudo apt-get purge xvfb
+
+4) Chrome
+
+sudo apt-get purge google-chrome-stable
+
+------------------------------------
+
+[12:36, 27/08/2023] Babu TESTLEAF: check if it is already installed??
+sudo apt install java
+
+check if it is already installed??
+sudo apt install mvn
+
+check if it is already installed??
+xvfb
+
+check if it is already installed??
+wget chrome
+dpkg
+
+! check already git exists
+    git clone git-repo
+else
+    git pull
+
+cd webdriver-tests
+mvn clean test
+aws s3 sync
+
+Assignment 2) Convert into a Shell script ??
+[12:36, 27/08/2023] Babu TESTLEAF: Home Assignment 1 : Restart the Machine using AWS CLI (if the health check fails)!
+Home Assignment 2 : Build Function Based Shell Script for all installations and maven execution
+Home Assignment 3 : Make the Health Check Script to Call Automated Test Shell Script
+
+
+Trigger --> Health Check (Bash) --> If health check passed --> Automatically call --> 
+            Automated Test Script (Shell script)
+[13:10, 27/08/2023] Babu TESTLEAF: Commands to Uninstall
+
+"remove" --> it deletes the binary and other associated files of the package, but it typically leaves behind configuration files
+
+"purge"  --> it deletes everything related to the package, including its configuration files.
+
+1) Java
+
+sudo apt-get purge openjdk-*
+
+2) Maven
+
+sudo apt-get remove maven
+
+3) XVFB
+
+sudo apt-get purge xvfb
+
+4) Chrome
+
+sudo apt-get purge google-chrome-stable
+[13:11, 27/08/2023] Babu TESTLEAF: Amazon S3 on Free Tier:
+
+5 GB of standard storage
+20,000 GET Requests

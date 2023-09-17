@@ -1,0 +1,16 @@
+Home Assignment for this week:
+
+Objective: Trigger Selenium Tests from Jenkins on scheduled time
+
+Setup:
+
+- Setup 2 EC2 Machines (Jenkins and Selenium Server)
+- Create Shell scripts (Selenium Setup)
+- Push that shell script in GitHub
+
+Activity:
+
+- Setup Jenkins Job with Scheduled Trigger
+- Jenkins should connect to Selenium Server EC2 using SSH
+- Once Connected, need to pull the github shell script in Selenium Server
+- Once Pulled, Run the tests on selenium server and push results to AWS S3

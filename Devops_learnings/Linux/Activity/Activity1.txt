@@ -1,0 +1,19 @@
+[12:36, 27/08/2023] Babu TESTLEAF: Home Assignment 1 : Restart the Machine using AWS CLI (if the health check fails)!
+Home Assignment 2 : Build Function Based Shell Script for all installations and maven execution
+Home Assignment 3 : Make the Health Check Script to Call Automated Test Shell Script
+
+
+Trigger --> Health Check (Bash) --> If health check passed --> Automatically call --> 
+            Automated Test Script (Shell script)
+[12:44, 27/08/2023] Babu TESTLEAF: Usecase 1 : Every test execution results - Auto Published in AWS S3 
+
+Pros: - Easy Access, No Deletion, History !
+Cons: - Permission 
+
+Usecase 2 : Automated Health Check on Every Ubuntu Selenium Servers (Before Test Execution)
+
+Approach: Building Vital Health Checks on Ubuntu using shell scripts !!
+
+Usecase 3 : Building End to End Shell Script (Health Check -> Installation -> Tests -> Results)
+
+Approach: Whenever I get new Machine --> Do run shell script --> Release Machine !!

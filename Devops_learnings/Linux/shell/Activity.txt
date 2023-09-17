@@ -1,0 +1,43 @@
+Here is the complete document for reference:
+
+
+
+Pre-requisite:
+
+Install the "SSH Agent Plugin" if it's not already installed in Jenkins.
+
+Instructions:
+
+1. Upload SSH Key to Jenkins Credentials:
+
+    Go to Jenkins Dashboard -> Manage Jenkins -> Manage Credentials.
+    Under "(global)", click "Add Credentials".
+    Select "SSH Username with private key" from the "Kind" dropdown.
+    Enter the username for the target Ubuntu machine (commonly ubuntu).
+    Select "Enter directly" and paste the content of your PEM file into the "Key" field.
+    Give this credential a unique ID for reference, such as ubuntu-ssh-key.
+
+2. Create a Job in Jenkins:
+
+    Go to Jenkins Dashboard and click "New Item".
+    Enter a name for the job and select "Freestyle project", then click "OK".
+
+3. Configure the Job:
+
+    Build Environment:
+    Check the option "SSH Agent".
+    Select "Specific credentials" and choose the SSH key credential (ubuntu-ssh-key) you added earlier.
+    
+    Build Steps:
+    Add a build step by selecting "Execute shell" from the "Add build step" dropdown.
+    
+4. Follow these syntax to complete:
+
+    In the command you enter 
+
+    ssh -o StrictHostKeyChecking=no ubuntu@Selenium_Server_IP << EOF
+        git clone <repo>
+        cd Your_Repo_Directory
+        chmod +x your_selenium_script.sh
+        ./your_selenium_script.sh
+    EOF

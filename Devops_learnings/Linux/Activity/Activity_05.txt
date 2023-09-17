@@ -1,0 +1,73 @@
+[11:46, 26/08/2023] Babu TESTLEAF: 1) Make sure ssh into the machine
+2) Create a folder inside ubuntu 'DevOps'
+3) Create file in the /home/ubuntu path by name <your-name.txt>
+4) Open the file and write the text: I am good so far !
+5) Save file and exit the file
+6) Move the file inside the DevOps folder
+7) Once you confirmed the file is moved, Come back to the /home/ubuntu path
+8) Remove the folder itself
+[12:36, 26/08/2023] Babu TESTLEAF: Steps to Install (In New Ubuntu Machine)
+
+1) Update the latest packages for AWS ubuntu !!
+
+   sudo apt-get update
+
+2) Install JDK 8
+
+   sudo apt install openjdk-8-jdk
+
+   // cofirm by running the following command
+
+   java -version
+
+3) Install Maven 
+
+    sudo apt install maven
+
+    // cofirm by running the following command
+
+   mvn -v
+
+
+4) Install XVFB
+
+    sudo apt install xvfb
+
+    // This is run on particular port
+
+    Xvfb :99 &
+
+    // Export the display : 
+
+    export DISPLAY=:99
+
+5) Install chrome browser (binary : 114 )
+
+    1) This is link for all old chrome versions
+    http://mirror.cs.uchicago.edu/google-chrome/pool/main/g/google-chrome-stable/
+
+    2) command to download particular version
+    wget http://mirror.cs.uchicago.edu/google-chrome/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.198-1_amd64.deb
+
+    3) UnPackage the chrome
+
+    sudo dpkg -i google-chrome-stable_114.0.5735.198-1_amd64.deb
+
+    4) Run the following command (if the above command failed for any reasons)
+
+     sudo apt --fix-broken install
+
+6) Get the latest selenium code to run the tests !!
+
+
+    Repo: https://github.com/TestLeafInc/webdriver-tests
+
+    Step 6: 1) Clone the repo : The code from Git will come to ubuntu
+
+    git clone https://github.com/TestLeafInc/webdriver-tests
+
+7) Run the selenium code
+
+    mvn clean test 
+
+8) Confirm the results

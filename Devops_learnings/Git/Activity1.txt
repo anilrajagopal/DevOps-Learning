@@ -1,0 +1,11 @@
+1) Fork the https://github.com/TestLeafInc/webdriver-tests in your github
+2) Copy the GitHub URL of yours
+3) Go to the workspace in git cmd
+4) Clone your repo ! (Go to .git and confirm all good)
+5) Go to the src\main\java\com\leaftaps\testcases
+6) Add a new java file (clone 1 and change 2)
+7) git add (add additional files and use rm --cached)
+8) git status and git log
+9) git commit -m ""
+10) git push
+11) Confirm  the code is updated in the repo !

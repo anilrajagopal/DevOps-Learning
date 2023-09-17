@@ -1,0 +1,61 @@
+[11:58, 09/09/2023] +91 86082 78358: cli
+
+Hi Team,
+
+AWS CLI Windows setup : https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html
+
+AWS CLI MAC setup : https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html
+
+download  Access key ID & Secret access key from IAM console
+
+Run aws configure  in local command prompt fill the details-. access key ID & Secret access key, Region, outputformat(json)
+
+S3 Commands Reference : 
+
+https://docs.aws.amazon.com/cli/latest/userguide/cli-services-s3-commands.html
+https://docs.aws.amazon.com/cli/latest/reference/s3/
+
+create some folder in local system
+
+sample commands :
+
+List s3:  aws s3 ls
+
+Create: aws s3 mb s3://test-bucket
+
+Upload Files in Dir: aws s3 sync . s3://BUCKETNAME
+
+lists all objects and folders:  aws s3 ls s3://BUCKETNAME
+
+List objects in AWS : aws s3 ls s3://BUCKETNAME/PATH/
+
+copy s3 to local: aws s3 cp s3://BUCKETNAME ./ --recursive
+
+Exclude object : aws s3 sync . s3://BUCKETNAME --exclude "*.jpg"
+
+Delete: aws s3 rb s3://test-bucket --force
+
+--------------------------------------------------------------------------
+
+EC2-:https://docs.aws.amazon.com/cli/latest/reference/ec2/
+
+
+Create instance : 
+
+aws ec2 run-instances --image-id ami-0db1894e055420bc0 --instance-type t2.micro --key-name KeyPairFileName
+
+aws ec2 run-instances --image-id ami-079b5e5b3971bd10d --count 1 --instance-type t2.micro --key-name demo --security-group-ids sg-0be7fb7a160ec5731 --subnet-id subnet-0c7bd205ff528d29e
+
+aws ec2 start-instances --instance-ids i-0c746794427aedae0
+
+aws ec2 stop-instances --instance-ids i-07fcffe0836ddcbc0
+
+aws ec2 describe-instance-status --instance-id i-0c7f4fa6bc239c913
+
+aws ec2 describe-security-groups
+
+Doc- https://docs.aws.amazon.com/cli/latest/reference/
+[12:14, 09/09/2023] +91 86082 78358: On Windows, you can use the set command to clear these variables. For example:
+
+set AWS_ACCESS_KEY_ID=
+set AWS_SECRET_ACCESS_KEY=

@@ -1,0 +1,114 @@
+pipeline{
+
+    /* This is the machine which performs the job */
+    agent  any
+
+    /* Environment Variable to declar machine names */
+    environment{
+        DEV_SERVER_IP = '4.240.86.49'
+        SEL_SERVER_IP = '4.240.84.204'
+    }
+
+    /* Here is the logic to run the job details */
+    stages{
+
+        /* Stage to perform a single action - specific to your build to test to release*/
+        stage('Dev Build'){
+            steps{
+               
+               // SSH into the development server
+               sshagent(['ssh-azure']){
+                    
+                    // shell script follows
+                    sh '''
+                        ssh -o StrictHostKeyChecking=no azureuser@${DEV_SERVER_IP} '
+
+                            // If the application is running, kill it
+                            sudo fuser -k 80/tcp
+
+                            // This is auto update all the repo updates
+                            sudo apt-get update
+
+                            // Install JDK 8
+                            sudo apt install openjdk-8-jdk -y
+
+                            // Install Maven
+                            sudo apt install -y maven
+
+                            // Clone the repo
+                            git clone https://github.com/TestLeafInc/jenkins-pipeline
+
+                            // Move to dir 
+                            cd jenkins-pipeline/leafhub
+
+                            // Git Pull the latest
+                            git pull 
+
+                            // Start Spring boot app
+                            nohup sudo mvn spring-boot:run > /dev/null 2>&1 &
+
+                        '
+                    '''
+
+               }
+
+
+            }
+
+        }
+
+        stage('Dev Smoke Test'){
+            when{
+                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS')}
+            }
+            steps{
+                // I want to wait for sometime (build)
+                sleep(10)
+
+                // SSH into the development server
+                sshagent(['ssh-azure']){
+                    
+                    // shell script follows
+                    sh '''
+                        ssh -o StrictHostKeyChecking=no azureuser@${SEL_SERVER_IP} '
+
+                             // This is auto update all the repo updates
+                            sudo apt-get update
+
+                            // Install JDK 11
+                            sudo apt install openjdk-11-jdk -y
+
+                            // Install Maven
+                            sudo apt install -y maven
+
+                            // Install XVDB
+                            sudo apt install -y xvfb
+                            Xvfb :99&
+                            export DISPLAY=:99
+
+                            // Install Chrome
+                            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+                            sudo dpkg -i google-chrome-stable_current_amd64.deb
+                            sudo apt --fix-broken install -y
+
+                            // Clone the repo
+                            git clone https://github.com/TestLeafInc/webdriver-leafhub
+
+                            // Change workspace
+                            cd webdriver-leafhub
+
+                            // Git Pull
+                            git pull
+
+                            // Run the test
+                            mvn clean test -DsuiteXmlFile=smoke.xml -Dserver.ip=4.240.86.49
+
+                        '
+                    '''
+                }  
+            }
+        }
+
+    }
+
+}

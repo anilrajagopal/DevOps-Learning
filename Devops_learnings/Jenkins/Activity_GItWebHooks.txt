@@ -1,0 +1,17 @@
+1) Configure Jenkins Job
+
+    - Install GitHub Plugin
+    - Configure Job with the github repo
+    - Check the GitHub hook trigger for GITScm polling
+
+2) Configure Webhook at the repo level
+
+    - Go to specifici github repo
+    - Click on settings, webhook
+    - Click Add webhook
+    - Add the payload URL
+
+        http://JENKINS-IP:PORT/github-webhook/
+        http://65.1.7.104:8080/github-webhook/
+    
+    - Change the content type to JSON

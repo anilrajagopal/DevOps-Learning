@@ -115,15 +115,15 @@ pipeline{
 
         stage('Dev Approval'){
             steps{
-                script{
-                    input{
-                        message:  "Approve the Build?"
+                script {
+                    input(
+                        message: 'Approve deployment?', 
                         parameters: [
-                            choice(name:"Environment", choices:['Dev', 'QA'],
-                            description: 'Choose the environment to approve?')
+                            choice(name: 'Environment', choices: ['Dev', 'QA'], description: 'Choose an environment to deploy to')
                         ]
-                    }
+                    )
                 }
+                
             }
         }
 
