@@ -1,0 +1,32 @@
+Follow the steps below to launch the POS application within a Docker container.
+
+1. Fork the repo : https://github.com/mohan-balakrishnan/Testleaf-pos
+
+2. Upload the Dockerfileweb and Dockerfileapi to the server. You can find the Dockerfiles in the provided ZIP file.
+
+3. Build and run the web application with the following commands:
+
+   Build the web image: docker build -t pos-system-web -f Dockerfileweb .
+
+   Run the web container in the background on port 80: docker run -d -p 80:80 --name pos-system-web pos-system-web /bin/sh -c "nohup yarn dev:web"
+
+4. Build and run the API application with the following commands:
+
+   Build the API image: docker build -t pos-system-api -f Dockerfileapi .
+
+   Run the API container in the background on port 3500: docker run -d -p 3500:3500 --name pos-system-api pos-system-api /bin/sh -c "nohup yarn dev:api"
+
+5. To verify the Docker images and running containers, use the following commands:
+
+    docker images
+    docker ps
+
+6. To access the POS application, use the following URL format:
+
+    http://publicip - e.g., http://98.05.34.6
+
+7. Note:
+
+    - Ensure you update your server's IP address in the apiBuilder.js file located at Testleaf-pos/src/api/
+
+    - If you are using port 80 in any other application(eg: SonarQube), don't forget to make the necessary changes in the package.json file of your Testleaf POS application.

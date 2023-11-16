@@ -1,0 +1,10 @@
+docker build -t pos-system-web -f Dockerfileweb .
+docker run -d -p 80:80 --name pos-system-web pos-system-web /bin/sh -c "nohup yarn dev:web"
+
+docker build -t pos-system-api -f Dockerfileapi .
+docker run -d -p 3500:3500 --name pos-system-api pos-system-api /bin/sh -c "nohup yarn dev:api"
+
+
+To access POS app hit: 
+		
+		- http://publicip     - eg: http://98.05.34.6
