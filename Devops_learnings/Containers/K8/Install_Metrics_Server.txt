@@ -1,0 +1,53 @@
+Deploy Metrics Server
+
+1.	You can deploy the Metrics Server using the following command:
+
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+This command will create the Metrics Server deployment, service, and other associated resources in the kube-system namespace.
+
+2. Edit Deployment to Add --kubelet-insecure-tls:
+
+To add the --kubelet-insecure-tls flag to the Metrics Server deployment, you can use the kubectl edit command. Here's how you can do it:
+
+kubectl edit deployment metrics-server -n kube-system
+
+This command will open the deployment in your default text editor. Find the args section in the deployment YAML, Add the --kubelet-insecure-tls flag to the list of arguments:
+
+Save and exit the editor.
+
+2.	Verify Metrics Server Deployment:
+
+After making the modification, you can verify that the deployment has been updated by checking the resources in the kube-system namespace:
+
+kubectl get deployments,pods,services -n kube-system | grep metrics-server
+
+The deployment should now include the --kubelet-insecure-tls flag, and the Metrics Server should be operational with that configuration.
+
+Please note that using --kubelet-insecure-tls means that communication between the Metrics Server and kubelets is not secure. This flag should be used with caution in non-production or development environments, and it's recommended to secure communication in production clusters.
+
+
+You need add the tolerations as well (like in hub, chrome node).. tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
+
+
+All, Remember to add resource limits in the chrome node
+
+Assignment 1: HPA (Scaling Up by Memory)
+1) Setup Metrics API Server
+2) Change Chrome Node Resource Limits in YAML and apply
+3) Create HPA and apply
+4) Monitor the HPA % for memory (kubectl get all)
+5) Run tests to simulate increase in memory
+6) Confirm new pod is created
+
+Assignment 2:
+Do the same for firefox (3 max instances --> Thread.sleep) but with CPU time
+
+Assignment 3:
+Implement Scale down (Horizontal Scaling) of Pods by Memory 
+
+Reset:
+Kubectl delete deployment !!
