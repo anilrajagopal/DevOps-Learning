@@ -1,0 +1,48 @@
+
+Step1 : Setup the HELM Chart
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+helm version
+
+Step 2: Add Ingress API Gateway to the Repo and Install
+
+helm repo add nginx-stable https://helm.nginx.com/stable
+helm repo update
+helm install nginx-ingress nginx-stable/nginx-ingress --set rbac.create=true
+
+Step 3: Patch the Ingress controller Pod with the Tolerations
+
+kubectl patch pod nginx-ingress-controller-<pod-name> -p '{"spec":{"tolerations":[{"key":"node-role.kubernetes.io/control-plane","operator":"Exists"}]}}'
+
+Replace the <pod-name> with exact pod name from kubectl get pods
+
+Step 4: Create Ingress Routing file (Use yaml given)
+
+- Create and Apply
+
+Step 5: Load the Ingress API Gateway 
+
+Open your local chrome and load http://<DNS-Name>:<controller-port>
+
+DNS-Name is based on the following IP that you use:
+
+98.70.11.9 - grid1.testleaf.com 
+74.225.248.238 - grid2.testleaf.com 
+98.70.10.104 - grid3.testleaf.com 
+98.70.10.46 - grid4.testleaf.com 
+98.70.11.6 - grid5.testleaf.com 
+74.225.248.254 - grid6.testleaf.com
+
+and controller-port can be seen from the kubectl get svc command
+
+kubectl get svc
+NAME                       TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                        AGE
+kubernetes                 ClusterIP      10.96.0.1        <none>        443/TCP                                        7d
+nginx-ingress-controller   LoadBalancer   10.100.193.149   <pending>     80:32082/TCP,443:31596/TCP                     7m11s
+selenium-hub               NodePort       10.99.150.11     <none>        4444:32000/TCP,4443:31660/TCP,4442:30296/TCP   6d3h
+
+In this command, use 32082 port !! Yours will not be same as it is dynamically created port
+
+For example, if my K8s machine is 98.70.10.46 and the port is 32082 --> http://grid4.testleaf.com:32082/ui

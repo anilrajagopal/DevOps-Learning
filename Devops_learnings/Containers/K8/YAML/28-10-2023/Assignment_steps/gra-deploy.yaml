@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  labels:
+    env: visuals
+spec:
+  selector:
+    matchLabels:
+      env: visuals
+  template:
+    metadata:
+      name: grafana
+      labels:
+        env: visuals
+    spec:
+      securityContext:
+        fsGroup: 472  # Grafana is usually run as this group
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+      initContainers:
+      - name: volume-permissions
+        image: busybox
+        command: ["sh", "-c", "chmod -R 777 /var/lib/grafana"]
+        volumeMounts:
+        - name: grafana-persistent-storage-store
+          mountPath: /var/lib/grafana
+      containers:
+      - name: grafana
+        image: grafana/grafana
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: grafana-persistent-storage-store
+          mountPath: /var/lib/grafana/
+        - name: grafana-script
+          mountPath: /etc/grafana/provisioning/datasources/datasource.yaml
+          subPath: datasource.yaml
+      volumes:
+      - name: grafana-persistent-storage-store
+        persistentVolumeClaim:
+          claimName: gra-pv-claim
+      - name: grafana-script
+        configMap:
+          name: gra-config
+

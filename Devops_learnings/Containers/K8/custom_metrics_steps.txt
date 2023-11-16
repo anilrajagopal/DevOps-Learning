@@ -1,0 +1,13 @@
+Custom Metric Steps
+
+1) Source to collect the metric (GraphQL query --> queue count --> int)
+2) Write a program to do get the metric : Java / Python
+
+    a) Request: End Point / Payload  (do not hard code selenium grid IP)
+    b) Response: how many? return
+
+3) Docker Image --> Push to DockerHub (Public) // AWS ECR
+
+4) Create a deployment, svc (yaml ==> image ==> pass as environment variable) --> running !!
+
+5) Get the service (cluster-ip and port) and let prometheus scrap that info !!

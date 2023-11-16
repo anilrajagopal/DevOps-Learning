@@ -1,0 +1,24 @@
+End to End HandsOn project
+ 
+1) Setup Jenkins (Using Docker Container YAML)
+2) Setup Selenium Grid (Using Kubernetes YAML)
+3) Deploy the dev (using development dockerfile) and one for QA (for automation of dev)
+    a) Change the IPs and Port for configs
+    b) Run it locally
+    c) Push it your git repo (main) and note the URL
+4) Setup a webhook with Jenkins Job and GIT
+5) Setup a Jenkins Pipeline to do the following
+    a) Webhook Job to trigger the Pipeline
+    b) Stage 1: Pull the dev code and deploy as container and confirm up and running
+    c) Stage 2: Setup SonarQube and run the static checks
+    d) Stage 3: Pull the QA code and run smoke test against dev server in se grid (1 browser and 1 max instance)
+       - Push the results to S3
+    e) Post: Send email end of the pipeline
+    
+// Before 11.30 --> Target to complete this !! 
+
+6) Build HPA (50% Memory and limit) for scaling pods using YAML
+7) Create Jenkins Pipeline to run sanity tests (now or on schedule) where it will run 8 tests (4 parallel threads)
+   - Confirm scaling happens
+8) Setup Prometheus and Grafana for the Selenium Kubernetes Pods to monitor and visualize
+9) Run the regressions tests (16 tests) with 8 parallel threads and confirm the alert for new pods email is sent

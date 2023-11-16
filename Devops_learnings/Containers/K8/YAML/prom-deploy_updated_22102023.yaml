@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  labels:
+    env: metrics
+spec:
+  selector:
+    matchLabels:
+      env: metrics
+  template:
+    metadata:
+      name: prometheus
+      labels:
+        env: metrics
+    spec:
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+      containers:
+      - image: prom/prometheus
+        name: prom
+        args:
+        - '--config.file=/etc/prometheus/prometheus.yml'
+        - --storage.tsdb.path=prometheus_data/
+        ports:
+        - containerPort: 9090
+        volumeMounts:
+        - name: task-pv-storage
+          mountPath: prometheus_data/
+        - name: prometheus-script
+          mountPath: /etc/prometheus/prometheus.yml
+          subPath: prometheus.yml
+        - name: prometheus-script
+          mountPath: /etc/prometheus/rules.yaml
+          subPath: rules.yaml
+      volumes:
+      - name: task-pv-storage
+        persistentVolumeClaim:
+          claimName: task-pv-claim
+      - name: prometheus-script
+        configMap:
+          name: prom-config

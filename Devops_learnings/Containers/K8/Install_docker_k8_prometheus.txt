@@ -1,0 +1,140 @@
+Steps to install Docker, Kubernetes, Prometheus
+
+1. Update the package list:
+sudo apt update
+2. Install Docker:
+sudo apt install docker.io -y
+3. Check the Docker service status:
+sudo apt install docker-compose -y
+4. Kubernetes Installation:
+Update the package list and install necessary packages:
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+Add the Kubernetes repository key:
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add –
+Add the Kubernetes repository:
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+Update the package list again: 
+sudo apt update
+Install Kubernetes components:
+sudo apt-get install -y kubelet kubeadm kubectl
+Initialize Kubernetes with a specified pod network CIDR:
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+Set up your Kubernetes configuration:
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+Deploy a network plugin (Flannel in this case):
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+5. Copy Selenium hub, Service, Node, HPA files to a location and deploy Selenium hub    
+vi selenium-hub-deployment.yaml
+kubectl apply -f selenium-hub-deployment.yaml
+vi selenium-hub-svc.yaml
+kubectl apply -f selenium-hub-svc.yaml 
+kubectl get pods -l app=selenium-hub
+
+Ensure that the Selenium hub is running and accessible. Open the browser and confirm the hub is exposed publicly: http://{ip}:32000/ui#
+
+6. Create Kubernetes resources for Selenium Chrome nodes:
+
+vi selenium-node-chrome-deployment.yaml
+kubectl apply -f selenium-node-chrome-deployment.yaml
+kubectl get all
+
+Wait for the Selenium Chrome nodes to enter the running state.
+
+7. Deploy Horizontal Auto-Scaler:
+
+Apply the configuration for horizontal pod auto-scaling:
+
+kubectl apply -f horizontal-auto-scaler.yaml
+
+8. Deploy Metrics Server:
+
+Install the Metrics Server using the provided command:
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+Edit the Metrics Server deployment to add the --kubelet-insecure-tls flag:
+
+kubectl edit deployment metrics-server -n kube-system
+
+Add the --kubelet-insecure-tls flag to the args section.
+
+Verify the Metrics Server deployment:
+
+kubectl get deployments,pods,services -n kube-system | grep metrics-server
+
+Please note that using --kubelet-insecure-tls should be done with caution in non-production or development environments.
+
+You need add the tolerations as well (like in hub, chrome node).
+
+tolerations:
+- key: "node-role.kubernetes.io/control-plane"
+   operator: "Exists"
+   effect: "NoSchedule"
+      
+9. Install Helm:
+
+Install Helm and check the version:
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+helm version
+
+10. Install Prometheus and Grafana:
+
+Copy Prometheus files (pv-volume.yaml, pv-claim.yaml, ConfigMap.yaml, prom-deploy.yaml, prom-svc.yaml) to a location and run the following:
+
+kubectl apply -f pv-volume.yaml
+kubectl apply -f pv-claim.yaml
+
+
+
+
+[11:27, 21/10/2023] Babu TESTLEAF: Issue with file name
+[12:42, 21/10/2023] Babu TESTLEAF: 5 Steps Process:
+
+1) pv --> Create Persistent Volume for Prometheus Server --> TSDB
+2) pvc --> Create pv claim --> allocate 10 GBi --> pv
+__________________
+3) configmap (non persistent) 
+    --> specific to the pod --> scrap configs (prometheus -> server,port)
+    --> scrapping and evaluation intervals
+4) prometheus server as pod --> deployment
+5) prometheus service --> for external http access (dashboard)
+
+22-oct-2023
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install metrics prometheus-community/kube-state-metrics
+
+11. Patch the pod for kube-state-metrics:
+
+kubectl patch pod metrics-kube-state-metrics-<your-pod-id> -p '{"spec":{"tolerations":[{"key":"node-role.kubernetes.io/control-plane","operator":"Exists"}]}}'
+
+Restart the Pod using kubectl rollout restart deployment prometheus
+
+
+----
+
+Install Helm:
+
+Install Helm and check the version:
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+helm version
+
+--------------
+
+1) Update ConfigMap using the rules (make sure the correct kube - state - metrics )
+2) Update the deployment yaml
+3) Restart Prometheus
+4) Go back to UI 
+    a) confirm the target is working
+    b) confirm the rules are available
+    c) confirm the alerts are in right status
+
+ -----------------------
+

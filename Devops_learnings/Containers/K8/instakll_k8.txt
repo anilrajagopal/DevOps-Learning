@@ -1,0 +1,34 @@
+Pre-req: docker installed
+These commands are part of a set of instructions to install Kubernetes and deploy a Selenium Grid cluster on a Kubernetes cluster. Let's break down what each command does:
+1.	sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+•	This command updates the package list on the system (apt-get update) and installs the apt-transport-https and curl packages using apt-get. These packages are necessary for later steps.
+
+2.	curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+•	This command downloads Google's public key for APT package manager (apt-key.gpg) and adds it to the keyring to verify the authenticity of Kubernetes packages.
+
+3.	echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+•	This command adds the Kubernetes APT repository to the list of package sources by appending the specified line to /etc/apt/sources.list.d/kubernetes.list.
+
+4.	sudo apt-get update
+•	This updates the package list again to include the Kubernetes repository.
+
+5.	sudo apt-get install -y kubelet kubeadm kubectl
+•	This installs Kubernetes components: kubelet, kubeadm, and kubectl. kubelet is responsible for running containers, kubeadm is a tool for initializing a Kubernetes cluster, and kubectl is the command-line utility for interacting with Kubernetes clusters.
+
+6.	sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+•	This initializes the Kubernetes master node using kubeadm with a specified Pod network CIDR range.
+
+7.	mkdir -p $HOME/.kube
+•	This creates a directory called .kube in the user's home directory if it doesn't exist already.
+
+8.	sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config:
+•	This copies the Kubernetes cluster configuration from /etc/kubernetes/admin.conf to the user's .kube/config file.
+
+9.	sudo chown $(id -u):$(id -g) $HOME/.kube/config:
+•	This changes the ownership of the copied configuration file to the current user.
+
+
+
+---------------------------
+
+https://thenewstack.io/stop-setting-cpu-and-memory-requests-in-kubernetes/

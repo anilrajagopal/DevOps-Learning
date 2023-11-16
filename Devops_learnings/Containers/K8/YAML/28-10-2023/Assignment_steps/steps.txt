@@ -1,0 +1,20 @@
+Steps:
+
+A_ Setup
+
+1) PV, PVC
+2) ConfigMap, Deployment, Service
+
+Make sure to have your pod is running, service is accessible
+
+http://<vm-ip>:<node-port>
+
+admin/admin
+
+B_ Configure
+
+1) DataSource : Prometheus : Make sure to provide either public ip with public port /// Internally when it is running inside same VM and accessible
+
+2) Dashboards : 
+
+Setup the dashboard for selenium-hub running container status

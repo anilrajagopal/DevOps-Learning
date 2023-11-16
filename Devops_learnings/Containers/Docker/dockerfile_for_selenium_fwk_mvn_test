@@ -1,0 +1,10 @@
+# Maven and Java 11
+FROM maven:3.8.1-jdk-11
+
+WORKDIR /SeleniumProject
+
+RUN git clone -b master https://github.com/Sindiya90/SeleniumProject /SeleniumProject
+
+RUN git pull
+
+CMD mvn clean test -DsuiteXmlFile=testng_cross_browser.xml -Ddevserverurl=4.240.91.130 -Dseleniumwebdriverurl=20.244.24.179

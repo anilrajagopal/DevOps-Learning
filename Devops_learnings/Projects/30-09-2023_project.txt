@@ -1,0 +1,56 @@
+Welcome to Project (Complete Hands On Day) !
+
+2 Roles:
+
+I am acting as Developer Today !
+You (as team) acting as QA !
+
+Tech Stack for POS :
+
+- Front End: ReactJs (TypeScript)
+- Back End : NodeJs 
+- DB : SQL (SQLite)
+
+Developer Activities:
+
+- 5 User Stories are built (yet to be automated tests)
+- Release is upcoming in 2 weeks
+- GIT Repo: https://github.com/mohan-balakrishnan/Testleaf-pos
+- Development Server: 98.70.3.240 (AWS)
+- Jenkins Pipeline : Dev Deployment for Web and API
+
+
+Your Activities:
+
+- Manual Test cases (9) // done
+- Selenium Framework (9 automated tests) // done
+- Create a repo (add your team members as colloborators)
+- Make a local clone to the repo 
+- Setup Selenium Grid in the given VM (Chrome latest - 2 and Firefox latest - 2)
+- Write a docker file for selenium framework
+- Test against the development server (diff ip) and running inside the selenium grid (localhost)
+- Setup a jenkins and create a QA Pipeline
+    - Webhook connected to the dev code base (jenkins IP to Babu)
+    - [Babu] I would need about 10 seconds to have my dev updated with new code changes
+    - Sleep for 10sec
+    - SSH into the VM machine with the credentials
+    - Run the docker image for the framework
+         - Push the results to AWS S3 bucket
+    - Post: Send an email stating the tests are complete !
+
+
+--------------------------
+
+------Steps:
+
+1) Setup Selenium Grid in your VM as Docker Compose
+2) Setup Selenium Scripts in your local Eclipse/IntelliJ
+3) Change Grid IP and Dev IP in your local code base
+4) Run 1 or more tests from local and confirm tests ran fine (check reports)
+5) Once all code looks great, push to repo
+6) Go to VM, git clone and run as maven test from VM to confirm test is good
+7) Create docker file for selenium tests (including AWS S3 Push)
+8) Test docker container to confirm all tests ran fine and results are in S3
+9) Setup Jenkins Pipeline to call docker run (image) with arg
+
+Finally, developer webhook should trigger your pipeline

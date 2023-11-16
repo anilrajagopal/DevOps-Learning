@@ -1,0 +1,4 @@
+
+For scaling:
+
+docker-compose up -d --scale selenium-chrome-node-117=2 

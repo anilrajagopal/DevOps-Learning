@@ -1,0 +1,14 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: gra-config
+data:
+  datasource.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: prometheus
+        type: prometheus
+        access: server
+        url: http://10.98.5.104:9090
+        version: 1
+        editable: true

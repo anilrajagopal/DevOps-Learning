@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prom-config
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval:     10s
+      evaluation_interval: 10s
+    rule_files:
+      - /etc/prometheus/rules.yaml
+    alerting:
+      alertmanagers:
+        - static_configs:
+          - targets:
+            - 10.108.170.182:9093
+    scrape_configs:
+      - job_name: 'prometheus'
+        static_configs:
+        - targets: ['localhost:9090']
+      - job_name: 'kube-state-metrics'
+        static_configs:
+        - targets: ['10.101.107.225:8080']
+  rules.yaml: |
+    groups:
+    - name: container_status_rules
+      rules:
+      - alert: SeleniumHubContainerTerminated
+        expr: kube_pod_container_status_terminated{container="selenium-hub"} == 1
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Selenium Hub container is terminated"
+          description: "The Selenium Hub container in pod {{ $labels.pod }} is terminated."
+    - name: kube_pod_alerts
+      rules:
+      - alert: SeleniumHubContainerRunning
+        expr: kube_pod_container_status_running{container="selenium-hub"} > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "The selenium-hub container is in a running state."
+          description: "The selenium-hub container in pod {{ $labels.pod }} is in running state for more than 5 minutes."
+      - alert: SeleniumNodeChromePending
+        expr: kube_pod_status_phase{phase="Pending", pod=~"selenium-node-chrome.*"} > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Selenium Node Chrome pod is in Pending state."
+          description: "Selenium Node Chrome pod {{ $labels.pod }} is in Pending state."
+      - alert: CrashloopContainerRestarting
+        expr: kube_pod_container_status_restarts_total{container="crashloop-container"} > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Container is in CrashLoop"
+          description: "The container 'crashloop-container' in pod {{ $labels.pod }} is restarting frequently."
+

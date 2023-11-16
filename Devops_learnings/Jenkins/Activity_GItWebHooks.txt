@@ -15,3 +15,15 @@
         http://65.1.7.104:8080/github-webhook/
     
     - Change the content type to JSON
+
+--------------------------------------------------------
+
+script {
+        def changesDetected = sh(script: 'git fetch && [ "$(git rev-parse HEAD)" != "$(git rev-parse @{u})" ]', returnStatus: true) == 0
+
+        if (changesDetected) {
+            // Add your steps to pull the code or any other actions
+        } else {
+            // Skip 
+        }
+    }

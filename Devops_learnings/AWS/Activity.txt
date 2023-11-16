@@ -12,3 +12,75 @@ Lambda
 4. Go to lambda configuration -> Permissions -> select lambda role- > click on lambda policy, update json policy (copy the shared json policy)
 5. test lambda with some event name.
 6. Verify the instance id in lambda logs
+
+-------------------------------------------
+
+Create Ec2 instance with user data.
+
+#!/bin/bash
+yum update -y
+yum install -y httpd
+systemctl start httpd
+systemctl enable httpd
+wget https://raw.githubusercontent.com/mohan-balakrishnan/demolinux/main/app.zip
+unzip app.zip
+cp -a /app/. /var/www/html
+
+Cloudwatch Metric
+
+a) Create  EC2 Instance with Linux Free Tier
+b) Go to the Cloud watch Service
+c) Use the metric CPU Utilization Metric for the dimension instance id and generate a graph.
+d) Add the graph to the dashboard
+e) Share Dashboard -> public  / with username password. Verify the dashboard
+
+
+------------------------------------------
+
+[12:13, 10/09/2023] +91 86082 78358: Install the CloudWatch Logs agent on your EC2 instance using the following command:
+
+create a IAM Role -> AWS SERVICE -> EC2 with CloudwatchFullAccess
+
+Create a Amazon Linux 2 AMI 5.10 - EC2 instance, Attach above IAM role to EC2
+
+Connect instance and run below commands to install cloudwatch logs
+
+sudo -i
+sudo yum install -y awslogs
+
+Edit the CloudWatch Logs agent configuration file nano /etc/awslogs/awslogs.conf using your preferred text editor.
+
+In the configuration file, define a log file to monitor and the log group and log stream where the logs should be sent. For example:
+
+[/var/log/messages]
+datetime_format = %b %d %H:%M:%S
+file = /var/log/messages
+buffer_duration = 5000
+log_stream_name = {instance_id}
+initial_position = start_of_file
+log_group_name = MyDemoCWDLogs
+
+By default, the nano /etc/awslogs/awscli.conf points to the us-east-1 Region. To push your logs to a different Region, edit the awscli.conf file and specify that Region.
+
+Start the CloudWatch Logs agent using the following command:
+
+sudo systemctl start awslogsd
+
+That's it! The CloudWatch Logs agent will now start sending logs from the specified log file to the CloudWatch Logs group and stream you specified in the configuration file
+[12:13, 10/09/2023] +91 86082 78358: To create an IAM role with the required permissions to allow EC2 instances to access CloudWatch, follow the steps below:
+
+1. Sign in to the AWS Management Console and open the IAM console at https://console.aws.amazon.com/iam/.
+
+2.  In the left navigation pane, click on "Roles" and then click on the "Create role" button.
+
+3. On the "Create role" page, select the "AWS service" as the trusted entity and choose "EC2" as the service that will use this role. Click on the "Next: Permissions" button.
+
+4. On the "Attach permissions policies" page, search for and select the "CloudWatchFullAccess" policy. You can use the search bar or scroll down to find the policy. You may need to navigate to the "Customer Managed" tab to find the policy.
+
+5. Click on the "Next: Tags" button if you want to add any tags to the role. Otherwise, you can proceed by clicking on the "Next: Review" button.
+
+6. On the "Review" page, provide a name and description for the role. Make sure the settings are correct, and then click on the "Create role" button.
+
+
+---------------------------------------------------------------
+

@@ -1,0 +1,42 @@
+
+
+cd /home/azureuser/pos-selenium-tests
+                   docker run -v $(pwd)/reports:/selenium/reports selenium-framework-tests
+                   cd reports/
+                   aws s3 sync reports s3://reports-html-selenium
+
+                   ------------------------
+Activity for week ending 01-OCT-2023
+-------------------------------------
+1. Optimize the existing config properties (ip, url) similar to other maven pjts
+2. Automate the image creation process via pipeline
+3. Create containers using docker-compose to avoid docker run creating new containers everytime
+4. unless there is a code change in the git repo, do not trigger the creation of new image in jenkins pipeline
+
+--------------------------------------------------------------
+DOCKER-COMPOSE FOR STEP 3
+-------------------------
+
+version: '3'
+services:
+    selenium-tests:
+        image: hari_selenium_tests:latest
+        volumes:
+            - /home/azureuser/Hari/seleniumcode/reports:/sel/reports
+
+
+
+            https://github.com/Sindiya90/SeleniumProject/
+
+
+            ---------------------------------------------
+
+for step 4
+            script {
+        def changesDetected = sh(script: 'git fetch && [ "$(git rev-parse HEAD)" != "$(git rev-parse @{u})" ]', returnStatus: true) == 0
+        if (changesDetected) {
+            // Add your steps to pull the code or any other actions
+        } else {
+            // Skip 
+        }
+    }

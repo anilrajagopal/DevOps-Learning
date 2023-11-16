@@ -1,0 +1,6 @@
+143 exit error means docker is gracefully shutdown and 
+this can happen for various reasons including memory or
+resource constraint (as many uses same machine). 
+May be there are multiple dockers running on same time !! 
+Else, someone would have stopped your container unknown. 
+Do this -- Clean all your containers and images and try again !!

@@ -1,3 +1,23 @@
+Steps to setup AWS Ubuntu
+
+01) Login to AWS Console (Root user)
+02) Search for EC2 Under Services and Click EC2 --> Dashboard
+03) Click Lanunch Instance
+04) Choose Ubuntu (Free Tier Eligibility)
+05) Create a new pair of key : Name, RSA (Selected), .pem (selected) -> Create
+06) Move the downloaded pem file to a specific folder (DevOps)
+07) Launch Instance and wait for Success
+08) Click on Instance Id and Confirm the Public IP (13.233.233.66)
+09) Open the terminal / Git Bash and go to the folder (DevOps)
+10) type: ssh -i <pem-file.pem> ubuntu@<public-ip>
+11) change the permission using chmod 400 <pem-file.pem> // if needed
+12) Once connected, confirm the session with commands like pwd, whoami
+
+------------------------------------------
+
+
+
+
 [11:46, 26/08/2023] Babu TESTLEAF: 1) Make sure ssh into the machine
 2) Create a folder inside ubuntu 'DevOps'
 3) Create file in the /home/ubuntu path by name <your-name.txt>
@@ -71,3 +91,6 @@
     mvn clean test 
 
 8) Confirm the results
+
+-------------------------------------------------------
+

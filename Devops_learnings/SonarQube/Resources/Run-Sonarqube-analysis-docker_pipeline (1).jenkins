@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    
+    environment {
+        SEL_SONAR_SERVER_IP = '98.70.4.62'
+    }
+
+    stages {
+        stage('Sonar Analysis') {
+            steps {
+
+                // SSH into dev server
+                sshagent(['azureuser']) {
+                    sh '''
+                    ssh -o StrictHostKeyChecking=no azureuser@${SEL_SONAR_SERVER_IP} '
+                        rm -rf webdriver-tests
+                        git clone https://github.com/TestLeafInc/webdriver-tests
+                        cd webdriver-tests
+                        mvn clean verify sonar:sonar -Dsonar.projectKey=SonarQube-Test -Dsonar.projectName="SonarQube-Test" -Dsonar.host.url=http://98.70.4.62 -Dsonar.login=sqp_008b449488ec1d7bb6abf4655f4da6f1e80d3c8f
+                    '
+                    '''
+                }
+            }
+        }       
+    }
+}
