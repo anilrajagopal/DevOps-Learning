@@ -1,0 +1,1 @@
+scp -i public_key.pem -r e2e-project azureuser@ip_add:/home/azureuser/e2e-project (use this command to push all local files to server at once)
