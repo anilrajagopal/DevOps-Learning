@@ -1,1 +1,10 @@
-T
+***************************************************
+
+Create local git repo from folder with files and puah to remote
+
+1. Create a remote repo and note down remote endpoint
+2. In machine go to local folder and do git init (to creaate local repo)
+3. git add .
+4. git commit -m "message"
+5. git remote add origin https://remote-repo-endpoint
+6. git push -u origin master
